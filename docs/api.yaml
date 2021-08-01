@@ -1,0 +1,106 @@
+asyncapi: '2.1.0'
+info:
+  title: Usukawa
+  version: 0.1.0
+  description: Stream Overlay Framework
+servers:
+  general:
+    url: localhost:5555/ws
+    protocol: ws
+channels:
+  '*':
+    subscribe:
+      message:
+        oneOf:
+        - $ref: '#/components/messages/GeneralMessage'
+        - $ref: '#/components/messages/Request'
+        - $ref: '#/components/messages/Response'
+    publish:
+      message:
+        oneOf:
+        - $ref: '#/components/messages/GeneralMessage'
+        - $ref: '#/components/messages/Request'
+        - $ref: '#/components/messages/Response'
+        - $ref: '#/components/messages/SubscribeRequest'
+        - $ref: '#/components/messages/ReadRequest'
+components:
+  messages:
+    GeneralMessage:
+      description: >
+        GeneralMessage
+      payload:
+        type: object
+        required:
+          - type
+        properties:
+          type:
+            type: string
+            const: message
+          persistent:
+            type: boolean
+            default: false
+            description: persistent option
+          data:
+            description: message body
+    Request:
+      description: >
+        Request for RPC
+      payload:
+        type: object
+        required:
+          - type
+          - id
+        properties:
+          type:
+            type: string
+            const: request
+          id:
+            type: string
+            format: uuid
+            description: unique id
+          data:
+            description: request params
+    Response:
+      description: >
+        Response for RPC
+      payload:
+        type: object
+        required:
+          - type
+          - id
+        properties:
+          type:
+            type: string
+            const: response
+          id:
+            type: string
+            format: uuid
+            description: unique id
+          data:
+            description: return values
+    SubscribeRequest:
+      description: >
+        SubscribeRequest
+      payload:
+        type: object
+        required:
+          - type
+        properties:
+          type:
+            type: string
+            const: subscribe
+    ReadRequest:
+      description: >
+        ReadRequest
+      payload:
+        type: object
+        required:
+          - type
+        properties:
+          type:
+            type: string
+            const: read
+          id:
+            type: string
+            format: uuid
+            description: unique id
