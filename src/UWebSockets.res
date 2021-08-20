@@ -20,3 +20,13 @@ type handler = (res, req) => unit
 type listenSocket
 
 @send external listen: (templatedApp, int, listenSocket => unit) => templatedApp = "listen"
+
+type websocket
+
+open Util
+
+type websocketBehavior = {
+    message: (websocket, arrayBuffer, bool) => unit
+}
+
+@send external ws: (templatedApp, string, websocketBehavior) => templatedApp = "ws"
