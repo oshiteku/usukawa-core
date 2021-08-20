@@ -8,7 +8,8 @@
   "scripts": {
     "build": "rescript",
     "clean": "rescript clean -with-deps",
-    "start": "rescript build -w",
+    "start": "node src/App.bs.js",
+    "dev": "rescript build -w",
     "test": "jest"
   },
   "repository": {
