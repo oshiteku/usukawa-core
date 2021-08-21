@@ -1,6 +1,8 @@
 open Util
 
-type message = Message({topic: string, msgType: string, persistent: bool, data: string})
+type message =
+  | GeneralMessage({topic: string, persistent: bool, data: string})
+  | SubscribeRequest({topic: string})
 
 let processMessage = (_ws, messageBuffer, _isBinary) => {
   open TextDecoder
@@ -29,19 +31,26 @@ let processMessage = (_ws, messageBuffer, _isBinary) => {
   open Js.Json
 
   let message = switch Js.Json.classify(json) {
-  | Js.Json.JSONObject(value) =>
-    Message({
-      topic: value->getProperty("topic", decodeString),
-      msgType: value->getProperty("type", decodeString),
-      persistent: value->getOptionalProperty("persistent", decodeBoolean, false),
-      data: value->getProperty("data", decodeString),
+  | Js.Json.JSONObject(obj) =>
+    switch obj->getProperty("type", decodeString) {
+    | "message" =>
+      GeneralMessage({
+        topic: obj->getProperty("topic", decodeString),
+        persistent: obj->getOptionalProperty("persistent", decodeBoolean, false),
+        data: obj->getProperty("data", decodeString),
     })
-  | _ => failwith("Invalid message")
+    | "subscribe" =>
+      SubscribeRequest({
+        topic: obj->getProperty("topic", decodeString),
+      })
+    | _ => failwith("Unknown message type")
+    }
+  | _ => failwith("Invalid message object")
   }
 
   switch message {
-  | Message({msgType: "message"}) => Js.log(message)
-  | Message(_) => Js.log(message)
+  | GeneralMessage({topic, data}) => Js.log(`message: ${topic}, ${data}`)
+  | SubscribeRequest({topic}) => Js.log(`subscribe: ${topic}`)
   }
 }
 
