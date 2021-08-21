@@ -1,3 +1,5 @@
+open Util
+
 type uwebsockets
 
 @module("uWebSockets.js") external uwebsockets: unit => uwebsockets = "default"
@@ -5,6 +7,8 @@ type uwebsockets
 type templatedApp
 
 @module("uWebSockets.js") external app: unit => templatedApp = "App"
+
+@send external publish: (templatedApp, string, arrayBuffer, bool, bool) => bool = "publish"
 
 type res
 type req
@@ -23,10 +27,7 @@ type listenSocket
 
 type websocket
 
-@send external publish: (websocket, string, string, bool, bool) => bool = "publish"
 @send external subscribe: (websocket, string) => bool = "subscribe"
-
-open Util
 
 type websocketBehavior = {
     message: (websocket, arrayBuffer, bool) => unit
