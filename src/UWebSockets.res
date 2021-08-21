@@ -23,6 +23,9 @@ type listenSocket
 
 type websocket
 
+@send external publish: (websocket, string, string, bool, bool) => bool = "publish"
+@send external subscribe: (websocket, string) => bool = "subscribe"
+
 open Util
 
 type websocketBehavior = {
