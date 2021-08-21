@@ -17,6 +17,15 @@ let processMessage = (_ws, messageBuffer, _isBinary) => {
     obj->get(key)->getExn->decoder->getExn
   }
 
+  let getOptionalProperty = (obj, key, decoder, default) => {
+    open Js.Dict
+    open Belt.Option
+    switch obj->get(key) {
+    | Some(x) => x->decoder->getExn
+    | None => default
+    }
+  }
+
   open Js.Json
 
   let message = switch Js.Json.classify(json) {
@@ -24,7 +33,7 @@ let processMessage = (_ws, messageBuffer, _isBinary) => {
     Message({
       topic: value->getProperty("topic", decodeString),
       msgType: value->getProperty("type", decodeString),
-      persistent: value->getProperty("persistent", decodeBoolean),
+      persistent: value->getOptionalProperty("persistent", decodeBoolean, false),
       data: value->getProperty("data", decodeString),
     })
   | _ => failwith("Invalid message")
