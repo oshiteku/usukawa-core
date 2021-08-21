@@ -8,7 +8,7 @@ servers:
     url: localhost:5555/ws
     protocol: ws
 channels:
-  '*':
+  /:
     subscribe:
       message:
         oneOf:
@@ -31,8 +31,11 @@ components:
       payload:
         type: object
         required:
+          - topic
           - type
         properties:
+          topic:
+            type: string
           type:
             type: string
             const: message
@@ -48,9 +51,12 @@ components:
       payload:
         type: object
         required:
+          - topic
           - type
           - id
         properties:
+          topic:
+            type: string
           type:
             type: string
             const: request
@@ -66,9 +72,12 @@ components:
       payload:
         type: object
         required:
+          - topic
           - type
           - id
         properties:
+          topic:
+            type: string
           type:
             type: string
             const: response
@@ -84,8 +93,11 @@ components:
       payload:
         type: object
         required:
+          - topic
           - type
         properties:
+          topic:
+            type: string
           type:
             type: string
             const: subscribe
@@ -95,8 +107,11 @@ components:
       payload:
         type: object
         required:
+          - topic
           - type
         properties:
+          topic:
+            type: string
           type:
             type: string
             const: read
