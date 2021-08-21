@@ -38,7 +38,7 @@ let processMessage = (_ws, messageBuffer, _isBinary) => {
         topic: obj->getProperty("topic", decodeString),
         persistent: obj->getOptionalProperty("persistent", decodeBoolean, false),
         data: obj->getProperty("data", decodeString),
-    })
+      })
     | "subscribe" =>
       SubscribeRequest({
         topic: obj->getProperty("topic", decodeString),
