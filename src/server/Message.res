@@ -1,5 +1,5 @@
 type message =
-  | GeneralMessage({topic: string, persistent: bool, data: string})
+  | GeneralMessage({topic: string, persistent: bool})
   | SubscribeRequest({topic: string})
 
 let parseFromString = messageString => {
@@ -29,7 +29,6 @@ let parseFromString = messageString => {
       GeneralMessage({
         topic: obj->getProperty("topic", decodeString),
         persistent: obj->getOptionalProperty("persistent", decodeBoolean, false),
-        data: obj->getProperty("data", decodeString),
       })
     | "subscribe" =>
       SubscribeRequest({
