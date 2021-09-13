@@ -1,4 +1,11 @@
 open UWebSockets
+open Winston
+
+let logger = createLogger({
+  transports: [
+    Transports.console()
+  ]
+})
 
 let app = app()
 let _ = app
@@ -12,5 +19,8 @@ let _ = app
   },
 )
 ->listen(5555, _listenSocket => {
-  Js.log("listen!")
+  logger->log({
+    level: "info",
+    message: "listen: 5555"
+  })
 })
