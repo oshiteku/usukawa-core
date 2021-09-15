@@ -1,6 +1,8 @@
 open UWebSockets
 open Winston
 
+let ws_endpoint_path = "hogehoge"
+
 let logger = createLogger({
   transports: [
     Transports.console()
@@ -13,7 +15,7 @@ let _ = app
   let _ = Router.process(res, req)
 })
 ->ws(
-  "/*",
+  `/ws/${ws_endpoint_path}`,
   {
     message: MessageHandler.make(app),
   },
