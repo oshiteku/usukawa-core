@@ -20,7 +20,6 @@ let getArgv = (yargs: yargs) => {
     open Belt
 
     let { port, apiKey } = yargs.argv
-    Js.log(apiKey)
     {
         port: port->Option.getWithDefault("")->Int.fromString->Option.getWithDefault(5555),
         apiKey: apiKey->Option.getWithDefault("usukawa")
