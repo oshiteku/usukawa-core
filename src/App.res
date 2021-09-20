@@ -2,8 +2,6 @@ open UWebSockets
 open Yargs
 open Winston
 
-let ws_endpoint_path = "hogehoge"
-
 let logger = createLogger({
   transports: [
     Transports.console()
@@ -11,6 +9,8 @@ let logger = createLogger({
 })
 
 let argv = yargs(hideBin(Util.argv))->getArgv
+let apiPath = `/ws/${argv.apiKey}`
+let apiUrl = `ws://localhost:${argv.port->Belt.Int.toString}${apiPath}`
 
 let app = app()
 let _ = app
@@ -18,15 +18,14 @@ let _ = app
   let _ = Router.process(res, req)
 })
 ->ws(
-  `/ws/${ws_endpoint_path}`,
+  apiPath,
   {
     message: MessageHandler.make(app),
   },
 )
 ->listen(argv.port, _listenSocket => {
-  open Belt
   logger->log({
     level: "info",
-    message: `listen: ${argv.port->Int.toString}`
+    message: `listen: ${apiUrl}`
   })
 })

@@ -1,5 +1,6 @@
 type yargsArgv = {
-    port: string
+    port: option<string>,
+    apiKey: option<string>
 }
 
 type yargs = {
@@ -11,14 +12,17 @@ type yargs = {
 @module("yargs/helpers") external hideBin: array<string> => array<string> = "hideBin"
 
 type argv = {
-    port: int
+    port: int,
+    apiKey: string
 }
 
 let getArgv = (yargs: yargs) => {
     open Belt
 
-    let { port } = yargs.argv
+    let { port, apiKey } = yargs.argv
+    Js.log(apiKey)
     {
-        port: port->Int.fromString->Option.getWithDefault(5555)
+        port: port->Option.getWithDefault("")->Int.fromString->Option.getWithDefault(5555),
+        apiKey: apiKey->Option.getWithDefault("usukawa")
     }
 }
