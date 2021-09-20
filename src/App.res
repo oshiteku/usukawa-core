@@ -1,4 +1,5 @@
 open UWebSockets
+open Yargs
 open Winston
 
 let ws_endpoint_path = "hogehoge"
@@ -8,6 +9,8 @@ let logger = createLogger({
     Transports.console()
   ]
 })
+
+let argv = yargs(hideBin(Util.argv))->getArgv
 
 let app = app()
 let _ = app
@@ -20,9 +23,10 @@ let _ = app
     message: MessageHandler.make(app),
   },
 )
-->listen(5555, _listenSocket => {
+->listen(argv.port, _listenSocket => {
+  open Belt
   logger->log({
     level: "info",
-    message: "listen: 5555"
+    message: `listen: ${argv.port->Int.toString}`
   })
 })

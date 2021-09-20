@@ -10,3 +10,5 @@ module TextDecoder = {
     @new external make: unit => t = "TextDecoder"
     @send external: decode: (t, DataView.t) => string = "decode"
 }
+
+@scope("process") @val external argv: array<string> = "argv"
