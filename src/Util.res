@@ -17,7 +17,7 @@ let rec randomString = (~acc="", n) => {
     let cs = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
     let idx = Js.Math.random_int(0, cs->Js.String.length)
     let c = Js.String.charAt(idx, cs)
-    if (n < 0) {
+    if (n <= 0) {
         acc
     } else {
         randomString(~acc=acc ++ c, n - 1)
