@@ -12,8 +12,8 @@ type yargs = {
 @module("yargs/helpers") external hideBin: array<string> => array<string> = "hideBin"
 
 type argv = {
-    port: int,
-    apiKey: string
+    port: option<int>,
+    apiKey: option<string>
 }
 
 let getArgv = (yargs: yargs) => {
@@ -21,7 +21,7 @@ let getArgv = (yargs: yargs) => {
 
     let { port, apiKey } = yargs.argv
     {
-        port: port->Option.getWithDefault("")->Int.fromString->Option.getWithDefault(5555),
-        apiKey: apiKey->Option.getWithDefault(Util.randomString(16))
+        port: port->Option.getWithDefault("")->Int.fromString,
+        apiKey: apiKey
     }
 }
