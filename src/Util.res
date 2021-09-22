@@ -23,3 +23,32 @@ let rec randomString = (~acc="", n) => {
         randomString(~acc=acc ++ c, n - 1)
     }
 }
+
+module Net = {
+    type server
+    @module("net") external createServer: unit => server = "createServer"
+    @send external on: (server, string, unit => unit) => unit = "on"
+    @send external listen: (server, int, string) => unit = "listen"
+    @send external close: server => unit = "close"
+
+    type address = {
+        port: int
+    }
+    @send external address: server => address = "address"
+
+    let findFreePort = () => {
+        Promise.make((resolve, _reject) => {
+            let server = createServer()
+            let port = ref(0)
+
+            server->on("listening", () => {
+                port := (server->address).port
+                server->close
+            })
+            server->on("close", () => {
+                resolve(. port.contents)
+            })
+            server->listen(0, "127.0.0.1")
+        })
+    }
+}
