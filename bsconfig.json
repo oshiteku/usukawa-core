@@ -16,7 +16,7 @@
     "in-source": true
   },
   "suffix": ".bs.js",
-  "bs-dependencies": [],
+  "bs-dependencies": ["@ryyppy/rescript-promise"],
   "bs-dev-dependencies": ["@glennsl/bs-jest"],
   "warnings": {
     "error": "+101"
