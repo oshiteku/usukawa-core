@@ -7,9 +7,11 @@
   },
   "scripts": {
     "build": "rescript",
+    "build:dock": "esbuild src/dock/Main.bs.js --bundle --outfile=src/dock/main.js --minify",
     "clean": "rescript clean -with-deps",
     "start": "node src/App.bs.js",
     "dev": "rescript build -w",
+    "dev:dock": "esbuild src/dock/Main.bs.js --bundle --outfile=src/dock/main.js --servedir=src/dock/",
     "test": "jest"
   },
   "repository": {
@@ -28,6 +30,7 @@
   "dependencies": {
     "@rescript/react": "^0.10.3",
     "@ryyppy/rescript-promise": "^2.1.0",
+    "esbuild": "^0.13.4",
     "rescript": "^9.1.4",
     "uWebSockets.js": "github:uNetworking/uWebSockets.js#v19.3.0",
     "winston": "^3.3.3",
