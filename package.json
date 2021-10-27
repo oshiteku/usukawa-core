@@ -6,12 +6,14 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "rescript",
+    "build": "run-s build:rescript build:dock",
+    "build:rescript": "rescript",
     "build:dock": "esbuild src/dock/Main.bs.js --bundle --outfile=src/dock/main.js --minify",
     "clean": "rescript clean -with-deps",
-    "start": "node src/App.bs.js",
-    "dev": "rescript build -w",
-    "dev:dock": "esbuild src/dock/Main.bs.js --bundle --outfile=src/dock/main.js --servedir=src/dock/",
+    "dev": "run-p watch:* start:*",
+    "watch:rescript": "rescript build -w",
+    "watch:dock": "esbuild src/dock/Main.bs.js --bundle --outfile=src/dock/main.js --servedir=src/dock/",
+    "start:core": "node src/App.bs.js",
     "test": "jest"
   },
   "repository": {
@@ -38,6 +40,7 @@
   },
   "devDependencies": {
     "@glennsl/bs-jest": "^0.7.0",
-    "gentype": "^4.1.0"
+    "gentype": "^4.1.0",
+    "npm-run-all": "^4.1.5"
   }
 }
